@@ -1,0 +1,190 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>I Love You So Much Animation</title>
+    <style>
+        body {
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            min-height: 100vh;
+            background: linear-gradient(45deg, #ff9a9e 0%, #fad0c4 99%, #fad0c4 100%);
+            margin: 0;
+            overflow: hidden;
+            font-family: 'Arial', sans-serif;
+        }
+
+        .love-container {
+            text-align: center;
+            position: relative;
+        }
+
+        .love-text {
+            font-size: 5vw; /* Responsive font size */
+            font-weight: bold;
+            color: #fff; /* White text for contrast */
+            position: relative;
+            animation: textPopIn 1.5s ease-out forwards, textGlow 2.5s ease-in-out infinite alternate 1.5s;
+            text-shadow: 0 0 10px rgba(255, 255, 255, 0.7),
+                         0 0 20px rgba(255, 255, 255, 0.5),
+                         0 0 30px #e60073, /* Deep pink glow */
+                         0 0 40px #e60073,
+                         0 0 50px #e60073;
+            padding: 20px;
+            z-index: 10;
+        }
+
+        @keyframes textPopIn {
+            0% {
+                opacity: 0;
+                transform: scale(0.5);
+            }
+            100% {
+                opacity: 1;
+                transform: scale(1);
+            }
+        }
+
+        @keyframes textGlow {
+            from {
+                text-shadow: 0 0 10px rgba(255, 255, 255, 0.7),
+                             0 0 20px rgba(255, 255, 255, 0.5),
+                             0 0 30px #e60073,
+                             0 0 40px #e60073,
+                             0 0 50px #e60073;
+            }
+            to {
+                text-shadow: 0 0 20px rgba(255, 255, 255, 0.8),
+                             0 0 30px rgba(255, 255, 255, 0.6),
+                             0 0 40px #ff4da6, /* Brighter pink glow */
+                             0 0 50px #ff4da6,
+                             0 0 60px #ff4da6,
+                             0 0 70px #ff4da6;
+            }
+        }
+
+        .heart-bubble {
+            position: absolute;
+            background-color: rgba(255, 105, 180, 0.7); /* Pink heart color */
+            width: 20px;
+            height: 20px;
+            border-radius: 50% 50% 0 0; /* Top part of the heart */
+            transform: rotate(-45deg);
+            animation: floatUp 5s infinite ease-in-out;
+            z-index: 1;
+        }
+
+        .heart-bubble::before,
+        .heart-bubble::after {
+            content: '';
+            position: absolute;
+            background-color: inherit;
+            width: 20px;
+            height: 20px;
+            border-radius: 50%;
+        }
+
+        .heart-bubble::before {
+            top: -10px;
+            left: 0;
+        }
+
+        .heart-bubble::after {
+            top: 0;
+            left: 10px;
+        }
+
+        /* Different sizes and animation delays/durations for variety */
+        .heart-bubble.small {
+            width: 10px;
+            height: 10px;
+        }
+        .heart-bubble.small::before { top: -5px; }
+        .heart-bubble.small::after { left: 5px; }
+
+        .heart-bubble.medium {
+            width: 15px;
+            height: 15px;
+        }
+        .heart-bubble.medium::before { top: -7.5px; }
+        .heart-bubble.medium::after { left: 7.5px; }
+
+
+        @keyframes floatUp {
+            0% {
+                bottom: -50px;
+                opacity: 0;
+                transform: rotate(-45deg) translateX(0);
+            }
+            10% {
+                opacity: 0.9;
+            }
+            90% {
+                opacity: 0.9;
+            }
+            100% {
+                bottom: 100vh; /* Float all the way to the top */
+                opacity: 0;
+                transform: rotate(-45deg) translateX(calc(var(--sway) * 50px)); /* Add horizontal sway */
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="love-container">
+        <div class="love-text">I Love You So Much</div>
+    </div>
+
+    <script>
+        const loveContainer = document.querySelector('.love-container');
+        const numBubbles = 30; // Number of heart bubbles
+
+        // Popular and beautiful colors for hearts
+        const heartColors = [
+            'rgba(255, 105, 180, 0.7)', // Hot Pink
+            'rgba(255, 20, 147, 0.7)',   // Deep Pink
+            'rgba(255, 182, 193, 0.7)', // Light Pink
+            'rgba(220, 20, 60, 0.7)',    // Crimson Red
+            'rgba(255, 0, 0, 0.6)'       // Pure Red
+        ];
+
+        function createHeartBubble() {
+            const bubble = document.createElement('div');
+            bubble.classList.add('heart-bubble');
+
+            // Randomly assign size
+            const sizeChance = Math.random();
+            if (sizeChance < 0.33) {
+                bubble.classList.add('small');
+            } else if (sizeChance < 0.66) {
+                bubble.classList.add('medium');
+            }
+            // Default is large (20px)
+
+            bubble.style.left = `${Math.random() * 100}vw`; // Start at random horizontal position
+            bubble.style.animationDuration = `${Math.random() * 3 + 4}s`; // Random duration between 4s and 7s
+            bubble.style.animationDelay = `${Math.random() * 3}s`; // Random delay up to 3s
+            bubble.style.setProperty('--sway', Math.random() * 2 - 1); // For horizontal movement variation
+
+            // Assign a random beautiful color
+            bubble.style.backgroundColor = heartColors[Math.floor(Math.random() * heartColors.length)];
+
+            document.body.appendChild(bubble); // Append to body to float across the whole screen
+
+            // Remove bubble from DOM after animation finishes to save resources
+            bubble.addEventListener('animationend', () => {
+                bubble.remove();
+            });
+        }
+
+        for (let i = 0; i < numBubbles; i++) {
+            createHeartBubble();
+        }
+
+        // Create new bubbles periodically for a continuous effect
+        setInterval(createHeartBubble, 700); // Add a new heart every 700ms
+    </script>
+</body>
+</html>
