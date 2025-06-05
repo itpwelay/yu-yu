@@ -3,188 +3,289 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>I Love You So Much Animation</title>
+    <title>Happy Anniversary!</title>
     <style>
         body {
+            margin: 0;
+            padding: 0;
+            font-family: 'Arial', sans-serif;
             display: flex;
             justify-content: center;
             align-items: center;
             min-height: 100vh;
             background: linear-gradient(45deg, #ff9a9e 0%, #fad0c4 99%, #fad0c4 100%);
-            margin: 0;
-            overflow: hidden;
-            font-family: 'Arial', sans-serif;
-        }
-
-        .love-container {
+            overflow: hidden; /* To prevent scrollbars from appearing due to animations */
+            color: #fff;
             text-align: center;
-            position: relative;
         }
 
-        .love-text {
-            font-size: 5vw; /* Responsive font size */
-            font-weight: bold;
-            color: #fff; /* White text for contrast */
+        .container {
             position: relative;
-            animation: textPopIn 1.5s ease-out forwards, textGlow 2.5s ease-in-out infinite alternate 1.5s;
-            text-shadow: 0 0 10px rgba(255, 255, 255, 0.7),
-                         0 0 20px rgba(255, 255, 255, 0.5),
-                         0 0 30px #e60073, /* Deep pink glow */
-                         0 0 40px #e60073,
-                         0 0 50px #e60073;
+            z-index: 1;
             padding: 20px;
-            z-index: 10;
+            background-color: rgba(0, 0, 0, 0.1); /* Slight dark overlay for text readability */
+            border-radius: 15px;
+            box-shadow: 0 0 20px rgba(0,0,0,0.2);
         }
 
-        @keyframes textPopIn {
+        h1 {
+            font-size: 2.5em;
+            margin-bottom: 10px;
+            animation: fadeInDown 2s ease-in-out;
+        }
+
+        .names {
+            font-size: 1.8em;
+            margin-bottom: 20px;
+            animation: fadeIn 3s ease-in-out;
+        }
+
+        .message {
+            font-size: 1.5em; /* Increased size */
+            line-height: 1.6;
+            margin-bottom: 30px;
+            animation: fadeInUp 2s ease-in-out 1s; /* Delayed animation */
+            opacity: 0; /* Start hidden for animation */
+            animation-fill-mode: forwards; /* Keep state after animation */
+        }
+
+        .heartbeat-text {
+            animation: heartbeat 1.5s infinite;
+        }
+
+        /* Text Animations */
+        @keyframes fadeInDown {
             0% {
                 opacity: 0;
-                transform: scale(0.5);
+                transform: translateY(-50px);
             }
             100% {
                 opacity: 1;
+                transform: translateY(0);
+            }
+        }
+
+        @keyframes fadeInUp {
+            0% {
+                opacity: 0;
+                transform: translateY(50px);
+            }
+            100% {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+
+        @keyframes fadeIn {
+            0% {
+                opacity: 0;
+            }
+            100% {
+                opacity: 1;
+            }
+        }
+
+        @keyframes heartbeat {
+            0% {
+                transform: scale(1);
+            }
+            50% {
+                transform: scale(1.1);
+            }
+            100% {
                 transform: scale(1);
             }
         }
 
-        @keyframes textGlow {
-            from {
-                text-shadow: 0 0 10px rgba(255, 255, 255, 0.7),
-                             0 0 20px rgba(255, 255, 255, 0.5),
-                             0 0 30px #e60073,
-                             0 0 40px #e60073,
-                             0 0 50px #e60073;
-            }
-            to {
-                text-shadow: 0 0 20px rgba(255, 255, 255, 0.8),
-                             0 0 30px rgba(255, 255, 255, 0.6),
-                             0 0 40px #ff4da6, /* Brighter pink glow */
-                             0 0 50px #ff4da6,
-                             0 0 60px #ff4da6,
-                             0 0 70px #ff4da6;
-            }
+        /* Heart Animations */
+        .hearts-container {
+            position: fixed; /* Changed to fixed to cover the whole viewport */
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            pointer-events: none; /* Allows clicking through the hearts */
+            z-index: 0; /* Behind the text container */
         }
 
-        .heart-bubble {
+        .heart {
             position: absolute;
-            background-color: rgba(255, 105, 180, 0.7); /* Pink heart color */
             width: 20px;
             height: 20px;
-            border-radius: 50% 50% 0 0; /* Top part of the heart */
-            transform: rotate(-45deg);
-            animation: floatUp 5s infinite ease-in-out;
-            z-index: 1;
+            background-color: red;
+            opacity: 0.7;
+            border-radius: 0 20px 20px 0; /* Simplified heart shape */
+            animation: floatHeart 10s infinite linear;
         }
 
-        .heart-bubble::before,
-        .heart-bubble::after {
+        .heart::before,
+        .heart::after {
             content: '';
             position: absolute;
-            background-color: inherit;
             width: 20px;
             height: 20px;
+            background-color: red;
             border-radius: 50%;
         }
 
-        .heart-bubble::before {
+        .heart::before {
             top: -10px;
             left: 0;
+            transform: rotate(-45deg);
+            transform-origin: 0 100%;
         }
 
-        .heart-bubble::after {
+        .heart::after {
+            bottom: 0;
+            left: -10px;
+            transform: rotate(45deg);
+            transform-origin: 100% 0;
+        }
+
+        /* More robust heart shape using a single div and pseudo-elements for better scaling and rotation */
+        .css-heart {
+            position: absolute;
+            width: 50px;
+            height: 45px; /* Adjusted for better proportion */
+            opacity: 0.7;
+            animation: floatHeart 10s infinite linear, pulseHeart 2s infinite ease-in-out;
+        }
+
+        .css-heart:before,
+        .css-heart:after {
+            content: "";
+            position: absolute;
+            left: 25px; /* Half of the width */
             top: 0;
-            left: 10px;
+            width: 25px; /* Half of the width */
+            height: 40px; /* Adjusted height */
+            background: #ff4757; /* Romantic red */
+            border-radius: 25px 25px 0 0; /* Top curves */
+            transform: rotate(-45deg);
+            transform-origin: 0 100%;
         }
 
-        /* Different sizes and animation delays/durations for variety */
-        .heart-bubble.small {
-            width: 10px;
-            height: 10px;
+        .css-heart:after {
+            left: 0;
+            transform: rotate(45deg);
+            transform-origin: 100% 100%;
         }
-        .heart-bubble.small::before { top: -5px; }
-        .heart-bubble.small::after { left: 5px; }
-
-        .heart-bubble.medium {
-            width: 15px;
-            height: 15px;
-        }
-        .heart-bubble.medium::before { top: -7.5px; }
-        .heart-bubble.medium::after { left: 7.5px; }
 
 
-        @keyframes floatUp {
+        @keyframes floatHeart {
             0% {
-                bottom: -50px;
-                opacity: 0;
-                transform: rotate(-45deg) translateX(0);
-            }
-            10% {
-                opacity: 0.9;
-            }
-            90% {
-                opacity: 0.9;
+                transform: translateY(100vh) rotate(0deg);
+                opacity: 1;
             }
             100% {
-                bottom: 100vh; /* Float all the way to the top */
+                transform: translateY(-10vh) rotate(720deg); /* More rotation */
                 opacity: 0;
-                transform: rotate(-45deg) translateX(calc(var(--sway) * 50px)); /* Add horizontal sway */
             }
         }
+
+        @keyframes pulseHeart {
+            0%, 100% {
+                transform: scale(1);
+            }
+            50% {
+                transform: scale(1.2);
+            }
+        }
+
+        /* Responsive Design */
+        @media (max-width: 768px) {
+            h1 {
+                font-size: 2em;
+            }
+            .names {
+                font-size: 1.5em;
+            }
+            .message {
+                font-size: 1.2em;
+            }
+            .css-heart {
+                width: 30px;
+                height: 27px;
+            }
+            .css-heart:before,
+            .css-heart:after {
+                left: 15px;
+                width: 15px;
+                height: 24px;
+            }
+        }
+         @media (max-width: 480px) {
+            h1 {
+                font-size: 1.8em;
+            }
+            .names {
+                font-size: 1.3em;
+            }
+            .message {
+                font-size: 1em;
+            }
+        }
+
+
     </style>
 </head>
 <body>
-    <div class="love-container">
-        <div class="love-text">I Love You So Much</div>
+
+    <div class="hearts-container">
+        </div>
+
+    <div class="container">
+        <h1>Saw Eh Pwe Soe <span class="heartbeat-text">&hearts;</span> Nant Yu Yu Htay</h1>
+        <div class="names">
+            To my dearest Nant Yu Yu Htay,
+        </div>
+        <p class="message">
+            Happy <span style="color: #ff6b81; font-weight: bold;">1 Year & 5 Months</span> Anniversary!
+            <br>
+            I <span class="heartbeat-text" style="color: #ff4757;">love</span> you so much,
+            <br>
+            and let’s keep moving forward with full understanding and love, okay?
+        </p>
     </div>
 
     <script>
-        const loveContainer = document.querySelector('.love-container');
-        const numBubbles = 30; // Number of heart bubbles
+        const heartsContainer = document.querySelector('.hearts-container');
+        const numberOfHearts = 30; // Adjust number of hearts
 
-        // Popular and beautiful colors for hearts
-        const heartColors = [
-            'rgba(255, 105, 180, 0.7)', // Hot Pink
-            'rgba(255, 20, 147, 0.7)',   // Deep Pink
-            'rgba(255, 182, 193, 0.7)', // Light Pink
-            'rgba(220, 20, 60, 0.7)',    // Crimson Red
-            'rgba(255, 0, 0, 0.6)'       // Pure Red
-        ];
+        function createHeart() {
+            const heart = document.createElement('div');
+            heart.classList.add('css-heart'); // Use the more robust CSS heart
 
-        function createHeartBubble() {
-            const bubble = document.createElement('div');
-            bubble.classList.add('heart-bubble');
+            // Random starting position and animation delay
+            heart.style.left = Math.random() * 100 + 'vw';
+            heart.style.animationDuration = (Math.random() * 5 + 5) + 's'; // Random duration between 5s and 10s
+            heart.style.animationDelay = Math.random() * 5 + 's'; // Random delay up to 5s
 
-            // Randomly assign size
-            const sizeChance = Math.random();
-            if (sizeChance < 0.33) {
-                bubble.classList.add('small');
-            } else if (sizeChance < 0.66) {
-                bubble.classList.add('medium');
-            }
-            // Default is large (20px)
+            // Randomize heart colors slightly for more vibrancy
+            const colors = ['#ff4757', '#e84393', '#d63031', '#fd79a8', '#ff7675'];
+            const randomColor = colors[Math.floor(Math.random() * colors.length)];
+            heart.style.setProperty('--heart-color', randomColor); // For potential future use if pseudo-elements could inherit it directly (currently they can't for background)
+            // Instead, we'll have to set it for the pseudo-elements if we want variation, or just use the CSS defined one.
+            // For simplicity, all hearts will be the same color defined in .css-heart:before/after unless we add more classes.
 
-            bubble.style.left = `${Math.random() * 100}vw`; // Start at random horizontal position
-            bubble.style.animationDuration = `${Math.random() * 3 + 4}s`; // Random duration between 4s and 7s
-            bubble.style.animationDelay = `${Math.random() * 3}s`; // Random delay up to 3s
-            bubble.style.setProperty('--sway', Math.random() * 2 - 1); // For horizontal movement variation
+            // To vary colors of generated hearts, we need to create style rules dynamically or have predefined classes.
+            // Let's stick to one color for the generated hearts for now to keep it simpler.
+            // If you want varied colors for the floating hearts, we'd need to add more CSS classes like .heart-color-1, .heart-color-2 etc.
+            // and assign them randomly.
 
-            // Assign a random beautiful color
-            bubble.style.backgroundColor = heartColors[Math.floor(Math.random() * heartColors.length)];
+            heartsContainer.appendChild(heart);
 
-            document.body.appendChild(bubble); // Append to body to float across the whole screen
-
-            // Remove bubble from DOM after animation finishes to save resources
-            bubble.addEventListener('animationend', () => {
-                bubble.remove();
+            // Remove heart from DOM after animation finishes to save resources
+            heart.addEventListener('animationend', () => {
+                heart.remove();
+                createHeart(); // Create a new heart to keep the animation going
             });
         }
 
-        for (let i = 0; i < numBubbles; i++) {
-            createHeartBubble();
+        for (let i = 0; i < numberOfHearts; i++) {
+            setTimeout(createHeart, Math.random() * 5000); // Stagger the creation of initial hearts
         }
-
-        // Create new bubbles periodically for a continuous effect
-        setInterval(createHeartBubble, 700); // Add a new heart every 700ms
     </script>
+
 </body>
 </html>
